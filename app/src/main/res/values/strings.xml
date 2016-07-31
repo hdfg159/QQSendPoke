@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">QQSendPoke</string>
+    <string name="mainContent">本程序仅供学习交流使用，不得用于商业用途，请勿恶意使用。\n\n\n作者:hdfg159\n邮箱:hdfg159@126.com\nGithub:https://github.com/hdfg159\n\n</string>
+    <string name="noicon">隐藏图标</string>
+    <string name="displayicon">显示图标</string>
+</resources>
