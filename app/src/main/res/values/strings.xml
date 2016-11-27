@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">QQSendPoke</string>
-    <string name="mainContent">本程序仅供学习交流使用，不得用于商业用途，请勿恶意使用。\n\n\n作者:hdfg159\n邮箱:hdfg159@126.com\nGithub:https://github.com/hdfg159\n\n</string>
+    <string name="mainContent">如果喜欢我的程序，可以微信扫一下上面的二维码进行捐赠，那怕是一点点钱也是心意，谢谢......\n\n作者:hdfg159\n邮箱:hdfg159@126.com\nGithub:https://github.com/hdfg159</string>
     <string name="noicon">隐藏图标</string>
     <string name="displayicon">显示图标</string>
+    <string name="about">关于程序</string>
+    <string name="thanks">感谢</string>
+    <string name="payPictureIsSave">二维码图片已经保存到系统相册,打开微信（wechat）扫描二维码即可捐赠，谢谢捐赠...</string>
+    <string name="aboutContent">本程序仅供学习交流使用，请勿恶意使用，更不要用于商业用途。</string>
 </resources>

@@ -15,4 +15,4 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
--keep public class hdfg159.qqsendpoke.PokeMsgHook
+-keep public class hdfg159.qqsendpoke.hook.PokeMsgHook
