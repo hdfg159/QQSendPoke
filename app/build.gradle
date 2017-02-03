@@ -1,14 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    compileSdkVersion 25
+    buildToolsVersion '25.0.2'
     defaultConfig {
         applicationId "hdfg159.qqsendpoke"
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 20161127
-        versionName '1.2'
+        versionCode 20170203
+        versionName '2.0'
     }
     buildTypes {
         release {

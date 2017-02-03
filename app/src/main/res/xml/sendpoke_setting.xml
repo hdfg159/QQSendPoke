@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="QQSendPokeSetting">
+    <PreferenceCategory android:title="常规设置">
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="IsEnable"
+            android:summaryOff="未启用"
+            android:summaryOn="已启用"
+            android:title="模块状态" />
+        <EditTextPreference
+            android:defaultValue="1"
+            android:dialogTitle="设置次数"
+            android:enabled="false"
+            android:inputType="number"
+            android:key="PokeTimes"
+            android:title="设置触发次数" />
+        <EditTextPreference
+            android:defaultValue="0"
+            android:dialogTitle="设置消息间隔时间(秒)"
+            android:enabled="false"
+            android:inputType="number"
+            android:key="TimeInterval"
+            android:title="消息间隔时间" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="关于">
+        <Preference
+            android:summary="喜欢我的作品就请点这里"
+            android:title="支付宝捐赠">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://QR.ALIPAY.COM/FKX01070B8ASXMQNRFY528" />
+        </Preference>
+        <Preference
+            android:summary="点击跳转到我的作品源码"
+            android:title="GitHub">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/hdfg159/QQSendPoke" />
+        </Preference>
+    </PreferenceCategory>
+</PreferenceScreen>
