@@ -14,7 +14,7 @@
             android:enabled="false"
             android:inputType="number"
             android:key="PokeTimes"
-            android:title="设置触发次数" />
+            android:title="设置连发次数" />
         <EditTextPreference
             android:defaultValue="0"
             android:dialogTitle="设置消息间隔时间(秒)"

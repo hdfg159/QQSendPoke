@@ -16,7 +16,6 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 import hdfg159.qqsendpoke.utilities.XSharedPreferencesUtil;
 
 import static de.robv.android.xposed.XposedBridge.invokeOriginalMethod;
-import static de.robv.android.xposed.XposedBridge.log;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 
 /**
@@ -27,6 +26,8 @@ import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 public class PokeMsgHook implements IXposedHookLoadPackage {
 
     private static final String QQ_PACKAGE_NAME = "com.tencent.mobileqq";
+    private static final String QQ_SEND_POKE_PACKAGENAME = "hdfg159.qqsendpoke";
+    private static final String CLASSNAME_MAIN = "hdfg159.qqsendpoke.view.Main";
     private static final String CLASSNAME_POKE_ITEM_HELPER = "com.tencent.mobileqq.activity.aio.item.PokeItemHelper";
     private static final String CLASSNAME_QQ_APP_INTERFACE = "com.tencent.mobileqq.app.QQAppInterface";
     private static final String CLASSNAME_SESSION_INFO = "com.tencent.mobileqq.activity.aio.SessionInfo";
@@ -36,6 +37,13 @@ public class PokeMsgHook implements IXposedHookLoadPackage {
 
     @Override
     public void handleLoadPackage(final LoadPackageParam loadPackageParam) throws Throwable {
+        if (isQQSendPokePackage(loadPackageParam))
+            findAndHookMethod(CLASSNAME_MAIN, loadPackageParam.classLoader, "isModuleActive", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    param.setResult(true);
+                }
+            });
         if (isQQPackage(loadPackageParam))
             findAndHookMethod(Application.class, "dispatchActivityResumed", Activity.class, new XC_MethodHook() {
                 @Override
@@ -48,6 +56,16 @@ public class PokeMsgHook implements IXposedHookLoadPackage {
     private void sendPokeHook(LoadPackageParam loadPackageParam) {
         unlockPokeTimes(loadPackageParam);
         pokeMoreTimes(loadPackageParam);
+    }
+
+    private void unlockPokeTimes(LoadPackageParam loadPackageParam) {
+        findAndHookMethod(CLASSNAME_POKE_ITEM_HELPER, loadPackageParam.classLoader, METHOD_NAME_IS_ALLOW_POKE, CLASSNAME_QQ_APP_INTERFACE, CLASSNAME_SESSION_INFO, new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                if (isEnableModule())
+                    param.setResult(true);
+            }
+        });
     }
 
     private void pokeMoreTimes(final LoadPackageParam loadPackageParam) {
@@ -81,7 +99,7 @@ public class PokeMsgHook implements IXposedHookLoadPackage {
     }
 
     private long getMessageMillis() {
-        String time = XSharedPreferencesUtil.getString("TimeInterval", "0");
+        String time = XSharedPreferencesUtil.getString(XSharedPreferencesUtil.KEY_TIME_INTERVAL, "0");
         if (TextUtils.isEmpty(time))
             time = "0";
         Long second = Long.parseLong(time);
@@ -89,26 +107,15 @@ public class PokeMsgHook implements IXposedHookLoadPackage {
     }
 
     private long getPokeTimes() {
-        String time = XSharedPreferencesUtil.getString("PokeTimes", "1");
+        String time = XSharedPreferencesUtil.getString(XSharedPreferencesUtil.KEY_POKE_TIMES, "1");
         if (TextUtils.isEmpty(time))
             time = "1";
         return Long.parseLong(time);
     }
 
-    private void unlockPokeTimes(LoadPackageParam loadPackageParam) {
-        findAndHookMethod(CLASSNAME_POKE_ITEM_HELPER, loadPackageParam.classLoader, METHOD_NAME_IS_ALLOW_POKE, CLASSNAME_QQ_APP_INTERFACE, CLASSNAME_SESSION_INFO, new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                if (isEnableModule())
-                    param.setResult(true);
-            }
-        });
-    }
-
     private boolean isEnableModule() {
         refreshSetting();
-        log(String.valueOf(XSharedPreferencesUtil.getBoolean("IsEnable", true)));
-        return XSharedPreferencesUtil.getBoolean("IsEnable", true);
+        return XSharedPreferencesUtil.getBoolean(XSharedPreferencesUtil.KEY_IS_ENABLE, true);
     }
 
     private void refreshSetting() {
@@ -119,4 +126,7 @@ public class PokeMsgHook implements IXposedHookLoadPackage {
         return loadPackageParam.packageName.equals(QQ_PACKAGE_NAME);
     }
 
+    private boolean isQQSendPokePackage(LoadPackageParam loadPackageParam) {
+        return loadPackageParam.packageName.equals(QQ_SEND_POKE_PACKAGENAME);
+    }
 }

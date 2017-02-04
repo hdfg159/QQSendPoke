@@ -16,3 +16,6 @@
 #   public *;
 #}
 -keep public class hdfg159.qqsendpoke.hook.PokeMsgHook
+-keep public class hdfg159.qqsendpoke.view.Main{
+    private boolean isModuleActive();
+}

@@ -7,14 +7,14 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.PreferenceActivity;
-import android.preference.SwitchPreference;
 import android.view.MenuItem;
 
 import hdfg159.qqsendpoke.R;
+import hdfg159.qqsendpoke.utilities.XSharedPreferencesUtil;
 
 public class Settings extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
+
     private EditTextPreference timeInterval, pokeTimes;
-    private SwitchPreference isEnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,17 +26,13 @@ public class Settings extends PreferenceActivity implements SharedPreferences.On
 
     private void initView() {
         setupActionBar();
-        isEnable = (SwitchPreference) getPreferenceScreen().findPreference("IsEnable");
-        pokeTimes = (EditTextPreference) getPreferenceScreen().findPreference("PokeTimes");
-        timeInterval = (EditTextPreference) getPreferenceScreen().findPreference("TimeInterval");
+        pokeTimes = (EditTextPreference) getPreferenceScreen().findPreference(XSharedPreferencesUtil.KEY_POKE_TIMES);
+        timeInterval = (EditTextPreference) getPreferenceScreen().findPreference(XSharedPreferencesUtil.KEY_TIME_INTERVAL);
         pokeTimes.setSummary(getPokeTimesFromPrefences());
         timeInterval.setSummary(getTimeIntervalFromPrefences());
         toggleEnableModulestate();
     }
 
-    private String getPokeTimesFromPrefences() {
-        return getPreferenceManager().getSharedPreferences().getString("PokeTimes", "1");
-    }
 
     private void setupActionBar() {
         ActionBar actionBar = getActionBar();
@@ -60,13 +56,13 @@ public class Settings extends PreferenceActivity implements SharedPreferences.On
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
         switch (s) {
-            case "PokeTimes":
+            case XSharedPreferencesUtil.KEY_POKE_TIMES:
                 pokeTimes.setSummary(getPokeTimesFromPrefences());
                 break;
-            case "TimeInterval":
+            case XSharedPreferencesUtil.KEY_TIME_INTERVAL:
                 timeInterval.setSummary(getTimeIntervalFromPrefences());
                 break;
-            case "IsEnable":
+            case XSharedPreferencesUtil.KEY_IS_ENABLE:
                 toggleEnableModulestate();
                 break;
         }
@@ -83,11 +79,15 @@ public class Settings extends PreferenceActivity implements SharedPreferences.On
     }
 
     private boolean isEnableModuleFromPrefences() {
-        return getPreferenceManager().getSharedPreferences().getBoolean("IsEnable", true);
+        return getPreferenceManager().getSharedPreferences().getBoolean(XSharedPreferencesUtil.KEY_IS_ENABLE, true);
     }
 
     private String getTimeIntervalFromPrefences() {
-        return getPreferenceManager().getSharedPreferences().getString("TimeInterval", "0");
+        return getPreferenceManager().getSharedPreferences().getString(XSharedPreferencesUtil.KEY_TIME_INTERVAL, "0");
+    }
+
+    private String getPokeTimesFromPrefences() {
+        return getPreferenceManager().getSharedPreferences().getString(XSharedPreferencesUtil.KEY_POKE_TIMES, "1");
     }
 
     @Override

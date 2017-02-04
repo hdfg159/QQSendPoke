@@ -49,6 +49,7 @@ public class Main extends Activity implements View.OnClickListener {
     }
 
     private void initView() {
+        showMoudleState();
         TextView mainContent = (TextView) findViewById(R.id.mainContent);
         Linkify.addLinks(mainContent, Linkify.ALL);
         btnDisplayIcon = (Button) findViewById(R.id.btndisplayicon);
@@ -62,13 +63,16 @@ public class Main extends Activity implements View.OnClickListener {
         setBtnTitle();
     }
 
-    private ComponentName getIconComponentName() {
-        return new ComponentName(this, "hdfg159.qqsendpoke.view.Main-Alias");
+    private void showMoudleState() {
+        if (!isModuleActive())
+            DialogUtil.showAlertlr(this, "提示", "模块尚未激活,请前往Xposed框架的模块列表重新勾选并重启手机,否则模块不生效!", "忽略", null, "打开Xposed框架", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    redirectToXposed();
+                }
+            });
     }
 
-    private boolean isDisplayIcon() {
-        return getSharedPreferences("SendPokeMain", Context.MODE_PRIVATE).getBoolean("isDisplayIcon", true);
-    }
 
     @Override
     public void onClick(View v) {
@@ -91,6 +95,10 @@ public class Main extends Activity implements View.OnClickListener {
         }
     }
 
+    private boolean isModuleActive() {
+        return false;
+    }
+
     private void openSetting() {
         Intent intent = new Intent(this, Settings.class);
         startActivity(intent);
@@ -103,11 +111,15 @@ public class Main extends Activity implements View.OnClickListener {
         DialogUtil.showAlertTwo(this, getString(R.string.thanks), getString(R.string.payPictureIsSave), "确定", null, getString(R.string.supportalipay), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("https://QR.ALIPAY.COM/FKX01070B8ASXMQNRFY528"));
-                startActivity(intent);
+                redirectToAlipay();
             }
         });
+    }
+
+    private void redirectToAlipay() {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse("https://QR.ALIPAY.COM/FKX01070B8ASXMQNRFY528"));
+        startActivity(intent);
     }
 
     private void setBtnTitle() {
@@ -116,6 +128,22 @@ public class Main extends Activity implements View.OnClickListener {
         } else {
             btnDisplayIcon.setText(R.string.displayicon);
         }
+    }
+
+    private void redirectToXposed() {
+        ComponentName componentName = new ComponentName("de.robv.android.xposed.installer",
+                "de.robv.android.xposed.installer.WelcomeActivity");
+        Intent intent = new Intent();
+        intent.setComponent(componentName);
+        startActivity(intent);
+    }
+
+    private ComponentName getIconComponentName() {
+        return new ComponentName(this, "hdfg159.qqsendpoke.view.Main-Alias");
+    }
+
+    private boolean isDisplayIcon() {
+        return getSharedPreferences("SendPokeMain", Context.MODE_PRIVATE).getBoolean("isDisplayIcon", true);
     }
 
     @Override
