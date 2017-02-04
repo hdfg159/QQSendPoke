@@ -10,4 +10,8 @@
     <string name="aboutContent">本程序仅供学习交流，请勿恶意使用，更不要用于商业用途。</string>
     <string name="title_activity_settings">Settings</string>
     <string name="supportalipay">支持支付宝捐赠</string>
+    <string name="tips">提示</string>
+    <string name="module_active_tips">模块尚未激活,请前往Xposed框架的模块列表重新勾选并重启手机,否则模块不生效!</string>
+    <string name="open_xposed">打开Xposed框架</string>
+    <string name="ignore">忽略</string>
 </resources>

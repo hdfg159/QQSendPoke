@@ -7,8 +7,8 @@ android {
         applicationId "hdfg159.qqsendpoke"
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 20170203
-        versionName '2.0'
+        versionCode 20170204
+        versionName '2.1'
     }
     buildTypes {
         release {

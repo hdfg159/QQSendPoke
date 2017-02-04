@@ -65,7 +65,7 @@ public class Main extends Activity implements View.OnClickListener {
 
     private void showMoudleState() {
         if (!isModuleActive())
-            DialogUtil.showAlertlr(this, "提示", "模块尚未激活,请前往Xposed框架的模块列表重新勾选并重启手机,否则模块不生效!", "忽略", null, "打开Xposed框架", new DialogInterface.OnClickListener() {
+            DialogUtil.showAlertlr(this, getString(R.string.tips), getString(R.string.module_active_tips), getString(R.string.ignore), null, getString(R.string.open_xposed), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     redirectToXposed();
