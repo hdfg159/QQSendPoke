@@ -57,7 +57,7 @@ public class DialogUtil {
             alertDialog.getWindow()
                     .setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
         }
-        alertDialog.setOnDismissListener(onDismissListener);
+        alertDialog.setOnDismissListener(null);
         alertDialog.setOnShowListener(onShowListener);
         alertDialog.show();
         return alertDialog;

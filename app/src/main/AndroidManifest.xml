@@ -45,7 +45,7 @@
 
         <activity
             android:name=".view.Settings"
-            android:label="@string/title_activity_settings"></activity>
+            android:label="@string/title_activity_settings" />
     </application>
 
 </manifest>
